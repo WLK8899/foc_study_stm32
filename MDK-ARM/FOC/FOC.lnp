@@ -3,6 +3,7 @@
 "foc\main.o"
 "foc\gpio.o"
 "foc\adc.o"
+"foc\dma.o"
 "foc\spi.o"
 "foc\tim.o"
 "foc\usart.o"
@@ -32,6 +33,8 @@
 "foc\stm32g4xx_hal_uart_ex.o"
 "foc\system_stm32g4xx.o"
 "foc\pid.o"
+"foc\as5047p.o"
+"foc\vofa.o"
 --library_type=microlib --strict --scatter "FOC\FOC.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
