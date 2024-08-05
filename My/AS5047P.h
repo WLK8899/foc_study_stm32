@@ -52,6 +52,7 @@ uint16_t send_and_receive_16(uint16_t data);
 uint16_t Read_From_AS5047P(uint16_t cmd);
 uint16_t Command(uint16_t command, int i);
 
+double read_angle(uint16_t cmd);
 
 
 #endif // __AS5047_H

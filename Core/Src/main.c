@@ -116,11 +116,10 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-    val = Read_From_AS5047P(ANGLECOM_ADDR);
-    angle = (double)val * 360.0 / 16384.0;
+    angle = read_angle(ANGLECOM_ADDR);
     printf("angle: %f val :  %d/n",angle ,val);
     printf("\n");
-    // Vofa_FireWater("%f\n",angle);
+    // Vofa_FireWater("%.3f\r\n", angle);
     if (HAL_GPIO_ReadPin(KEY_GPIO_Port, KEY_Pin) == 0)
     {
       HAL_Delay(50); // 简单的软件消抖

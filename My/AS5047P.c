@@ -106,3 +106,25 @@ uint16_t Read_From_AS5047P(uint16_t cmd)
 		}
 	}
 }
+
+#define MAX_RETRY 100
+double read_angle(uint16_t cmd) {
+    uint16_t data;
+    double angle;
+    int i = 0;
+
+    do {
+        data = Read_From_AS5047P(cmd);
+        i++;
+    } while (data == 0 && i < MAX_RETRY);
+
+    if (i >= MAX_RETRY) {
+        // 超过最大重试次数, 可以抛出异常或返回一个错误标志
+		printf("angle read error");
+        return 0.0;
+    }
+
+    static const double ANGLE_COEF = 360.0 / 16384.0;
+    angle = (double)data * ANGLE_COEF;
+    return angle;
+}
