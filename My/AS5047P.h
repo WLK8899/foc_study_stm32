@@ -37,6 +37,8 @@ typedef struct
 	uint16_t Z_pin;
 	
 	uint16_t angle;
+	int number;
+	int dir;  //1：正转   	-1 ：反转
 
 
 
@@ -46,7 +48,7 @@ typedef struct
 extern AS5047_t as5047_encoder;
 
 // 函数声明
-void As5047p_Init();
+void As5047p_Init(AS5047_t* encoder);
 unsigned int even_check(unsigned int v);
 uint16_t send_and_receive_16(uint16_t data);
 uint16_t Read_From_AS5047P(uint16_t cmd);

@@ -67,12 +67,14 @@ void Error_Handler(void);
 #define ADC_Udc_GPIO_Port GPIOA
 #define KEY_Pin GPIO_PIN_4
 #define KEY_GPIO_Port GPIOA
+#define KEY_EXTI_IRQn EXTI4_IRQn
 #define Encode_A_Pin GPIO_PIN_6
 #define Encode_A_GPIO_Port GPIOA
 #define Encoder_B_Pin GPIO_PIN_7
 #define Encoder_B_GPIO_Port GPIOA
-#define Encoder_num_Pin GPIO_PIN_0
-#define Encoder_num_GPIO_Port GPIOB
+#define Encoder_Num_Pin GPIO_PIN_0
+#define Encoder_Num_GPIO_Port GPIOB
+#define Encoder_Num_EXTI_IRQn EXTI0_IRQn
 #define ERR_Pin GPIO_PIN_11
 #define ERR_GPIO_Port GPIOB
 #define LED_Pin GPIO_PIN_12

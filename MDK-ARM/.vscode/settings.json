@@ -12,6 +12,8 @@
         "stdarg.h": "c",
         "string.h": "c",
         "stdint.h": "c",
-        "stm32g4xx_hal.h": "c"
+        "stm32g4xx_hal.h": "c",
+        "tim.h": "c",
+        "motor.h": "c"
     }
 }

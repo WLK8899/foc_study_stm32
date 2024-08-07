@@ -636,6 +636,11 @@
               <FileType>1</FileType>
               <FilePath>..\My\vofa.c</FilePath>
             </File>
+            <File>
+              <FileName>motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\My\motor.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
