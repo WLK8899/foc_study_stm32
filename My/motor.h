@@ -7,10 +7,10 @@
 typedef struct 
 {
     int dir;
-    int32_t lastCount;   //上一次计数值
-    int32_t totalCount;  //总计数值
+    float lastAngle;   //上一次计数值
+    // int32_t totalCount;  //总计数值
     int16_t overflowNum; //溢出次数
-    float speed;         //电机转速
+    float speed;         //电机转速  每转4000个脉冲
 
     uint8_t direct;      //旋转方向
     

@@ -59,6 +59,7 @@
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_adc1;
+extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim3;
 extern TIM_HandleTypeDef htim6;
 extern TIM_HandleTypeDef htim7;
@@ -278,6 +279,20 @@ void DMA1_Channel3_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles TIM1 update interrupt and TIM16 global interrupt.
+  */
+void TIM1_UP_TIM16_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 0 */
+
+  /* USER CODE END TIM1_UP_TIM16_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim1);
+  /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 1 */
+
+  /* USER CODE END TIM1_UP_TIM16_IRQn 1 */
+}
+
+/**
   * @brief This function handles TIM3 global interrupt.
   */
 void TIM3_IRQHandler(void)
@@ -351,20 +366,22 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   }
   else if (GPIO_Pin == Encoder_Num_Pin)
   {
+    int cnt = TIM3->CNT;
     // 获取电机旋转方向
+
     my_motor.dir = __HAL_TIM_IS_TIM_COUNTING_DOWN(&htim3);
     // printf("dir: %d\n", my_motor.dir);
     // 正转
     if (my_motor.dir == 0)
     {
       ++my_motor.encoder.number;
-      // printf("turn right: %d\n", my_motor.encoder.number);
+      printf("turn right: %d\n", my_motor.encoder.number);
     }
     // 反转
     else if (my_motor.dir == 1)
     {
       --my_motor.encoder.number;
-      // printf("turn left: %d\n", my_motor.encoder.number);
+      printf("turn left: %d\n", my_motor.encoder.number);
     }
     my_motor.dir = -1;
   }
@@ -398,24 +415,31 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   }
   else if (htim->Instance == TIM6)
   {
-    int cnt=TIM3->CNT;
-    my_motor.direct = __HAL_TIM_IS_TIM_COUNTING_DOWN(&htim3);            // 如果向上计数（正转），返回值为0，否则返回值为1
-    my_motor.totalCount = cnt + my_motor.overflowNum * RELOADVALUE_1; // 一个周期内的总计数值等于目前计数值加上溢出的计数值
+    float now_angle = read_angle_ABZ();
+    float delta_angle = now_angle - my_motor.lastAngle;
+    my_motor.lastAngle = now_angle;
+    int dir = __HAL_TIM_IS_TIM_COUNTING_DOWN(&htim3);
 
-    if (my_motor.lastCount - my_motor.totalCount > 19000) // 在计数值溢出时进行防溢出处理
+    // 正转
+    if (dir == 0)
     {
-      my_motor.overflowNum++;
-      my_motor.totalCount = cnt + my_motor.overflowNum * RELOADVALUE_1; // 一个周期内的总计数值等于目前计数值加上溢出的计数值
+      if (delta_angle < 0)
+      {
+        delta_angle += 360.0f;
+      }
+       my_motor.speed = delta_angle / 360.0f * 1000; // 1000是时间单位
     }
-    else if (my_motor.totalCount - my_motor.lastCount > 19000) // 在计数值溢出时进行防溢出处理
+    // 反转
+    else if (dir == 1)
     {
-      my_motor.overflowNum--;
-      my_motor.totalCount = cnt + my_motor.overflowNum * RELOADVALUE_1; // 一个周期内的总计数值等于目前计数值加上溢出的计数值
+      if (delta_angle > 0)
+      {
+        delta_angle -= 360.0f;
+      }
+      my_motor.speed = delta_angle / 360.0f * 1000; // 1000是时间单位
     }
 
-    my_motor.speed = (float)(my_motor.totalCount - my_motor.lastCount) / (400.0f) * 1000; // 算得每秒多少转,除以4是因为4倍频
-    my_motor.lastCount = my_motor.totalCount;
-    Vofa_FireWater("%.2f\r\n",my_motor.speed);                                                                                // 记录这一次的计数值
+   Vofa_FireWater("%.2f\r\n",my_motor.speed);
   }
 }
 /* USER CODE END 1 */

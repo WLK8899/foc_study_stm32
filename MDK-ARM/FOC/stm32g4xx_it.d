@@ -41,5 +41,5 @@ foc/stm32g4xx_it.o: ..\Core\Src\stm32g4xx_it.c ..\Core\Inc\main.h \
   ..\My\vofa.h ..\Core\Inc\usart.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
   C:\Keil_v5\ARM\ARMCLANG\include\string.h \
-  C:\Keil_v5\ARM\ARMCLANG\include\stdarg.h ..\My\motor.h \
-  ..\Core\Inc\tim.h
+  C:\Keil_v5\ARM\ARMCLANG\include\stdarg.h ..\Core\Inc\tim.h \
+  ..\My\motor.h

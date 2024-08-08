@@ -1,5 +1,5 @@
-foc/as5047p.o: ..\My\AS5047P.c ..\My\AS5047P.h ..\Core\Inc\spi.h \
-  ..\Core\Inc\main.h ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal.h \
+foc/get_adc.o: ..\My\get_adc.c ..\My\get_adc.h ..\Core\Inc\main.h \
+  ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal.h \
   ..\Core\Inc\stm32g4xx_hal_conf.h \
   ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_rcc.h \
   ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_def.h \
@@ -37,7 +37,7 @@ foc/as5047p.o: ..\My\AS5047P.c ..\My\AS5047P.h ..\Core\Inc\spi.h \
   ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_tim_ex.h \
   ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_uart.h \
   ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_uart_ex.h \
-  ..\My\vofa.h ..\Core\Inc\usart.h \
-  C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
+  ..\My\motor.h ..\My\AS5047P.h ..\Core\Inc\spi.h ..\My\vofa.h \
+  ..\Core\Inc\usart.h C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
   C:\Keil_v5\ARM\ARMCLANG\include\string.h \
-  C:\Keil_v5\ARM\ARMCLANG\include\stdarg.h ..\Core\Inc\tim.h
+  C:\Keil_v5\ARM\ARMCLANG\include\stdarg.h ..\My\control.h

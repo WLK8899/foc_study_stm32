@@ -2,23 +2,23 @@
 #include <stdio.h>
 AS5047_t as5047_encoder;
 
-void As5047p_Init(AS5047_t* encoder)
+void As5047p_Init(AS5047_t *encoder)
 {
-    encoder->hspin = &hspi1;
-    encoder->CSNport = SPI_CSS_GPIO_Port;
-    encoder->CSNpin = SPI_CSS_Pin;
+	encoder->hspin = &hspi1;
+	encoder->CSNport = SPI_CSS_GPIO_Port;
+	encoder->CSNpin = SPI_CSS_Pin;
 
-    encoder->A_port = Encode_A_GPIO_Port;
-    encoder->A_pin = Encode_A_Pin;
-    encoder->B_port = Encoder_B_GPIO_Port;
-    encoder->B_pin = Encoder_B_Pin;
-    encoder->Z_port = Encoder_Num_GPIO_Port;
-    encoder->Z_pin = Encoder_Num_Pin;
+	encoder->A_port = Encode_A_GPIO_Port;
+	encoder->A_pin = Encode_A_Pin;
+	encoder->B_port = Encoder_B_GPIO_Port;
+	encoder->B_pin = Encoder_B_Pin;
+	encoder->Z_port = Encoder_Num_GPIO_Port;
+	encoder->Z_pin = Encoder_Num_Pin;
 
-    encoder->angle = 0;
-    encoder->error = 0;
-    encoder->number = 0;
-   // encoder->dir = -1;
+	encoder->angle = 0;
+	encoder->error = 0;
+	encoder->number = 0;
+	// encoder->dir = -1;
 }
 
 // 计算奇偶函数
@@ -111,10 +111,10 @@ uint16_t Read_From_AS5047P(uint16_t cmd)
 }
 
 #define MAX_RETRY 100
-double read_angle(uint16_t cmd)
+float read_angle_spi(uint16_t cmd)
 {
 	uint16_t data;
-	double angle;
+	float angle;
 	int i = 0;
 
 	do
@@ -130,10 +130,21 @@ double read_angle(uint16_t cmd)
 		return 0.0;
 	}
 
-	static const double ANGLE_COEF = 360.0 / 16384.0;
-	angle = (double)data * ANGLE_COEF;
+	static const float ANGLE_COEF = 360.0 / 16384.0;
+	angle = (float)data * ANGLE_COEF;
 	return angle;
 }
 
+float read_angle_ABZ()
+{
+	int cnt = TIM3->CNT;
+	float angle = (float)cnt / 4096.0f * 360.0f;
+	// Vofa_FireWater("%d,%.2f\r\n", cnt,angle);
+	// printf("cnt : %d, angle: %.1f\n",cnt,angle);
+	return angle;
+}
+void get_speed() {
 
-
+	//打开定时器获得速度
+	HAL_TIM_Base_Start_IT(&htim6);
+}

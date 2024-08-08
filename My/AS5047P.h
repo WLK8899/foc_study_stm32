@@ -4,6 +4,7 @@
 #include "spi.h" // 根据你使用的STM32系列更改此头文件
 #include "main.h"
 #include "vofa.h"
+#include "tim.h"
 /*内容随外界变化的寄存器 可读不可写*/
 #define NOP_ADDR      0x0000 //启动读取过程寄存器地址
 #define ERRFL_ADDR    0x0001 //错误寄存器地址
@@ -54,7 +55,8 @@ uint16_t send_and_receive_16(uint16_t data);
 uint16_t Read_From_AS5047P(uint16_t cmd);
 uint16_t Command(uint16_t command, int i);
 
-double read_angle(uint16_t cmd);
+float read_angle_spi(uint16_t cmd);
+float read_angle_ABZ();
 
-
+void get_speed();
 #endif // __AS5047_H
