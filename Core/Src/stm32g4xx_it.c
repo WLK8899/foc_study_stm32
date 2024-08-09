@@ -386,7 +386,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     my_motor.dir = -1;
   }
 }
-
+int sw;
 // 定时器中断回调函数
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
@@ -398,17 +398,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_RESET)
     {
       HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-      // if (sw == 0)
-      // {
-      //   HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET);
-      //   sw = 1;
-      // }
-      // else
-      // {
-      //   HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_SET);
-      //   sw = 0;
-      // }
-      // ...
+      if (sw == 0)
+      {
+        HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_RESET);
+        sw = 1;
+      }
+      else
+      {
+        HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_SET);
+        sw = 0;
+      }
+      
     }
 
     button_pressed = 0; // 复位按键状态

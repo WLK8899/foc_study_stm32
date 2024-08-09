@@ -16,7 +16,7 @@ void motor_init(Motor_t *motor)
     motor->direct = 0;
 
     motor->foc.u_d=0;
-    motor->foc.u_q=2;
+    motor->foc.u_q=3;
     motor->foc.theta=0;
 
     // 默认关闭读取速度
@@ -28,4 +28,10 @@ void motor_init(Motor_t *motor)
     __HAL_TIM_SET_COUNTER(&htim3, 0);
 }
 
+void Set_SVPWM_Compare(int16_t c1,int16_t c2,int16_t c3)
+{
+	__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,c1);
+	__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,c2);
+	__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_3,c3);
+}
 

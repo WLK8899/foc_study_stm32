@@ -18,6 +18,8 @@
         "cmath": "c",
         "*.tcc": "c",
         "math.h": "c",
-        "foc.h": "c"
+        "foc.h": "c",
+        "__verbose_abort": "c",
+        "cstdio": "c"
     }
 }

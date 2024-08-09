@@ -27,4 +27,5 @@ typedef struct
 extern Motor_t my_motor;
 
 void motor_init(Motor_t* motor);
+void Set_SVPWM_Compare(int16_t c1,int16_t c2,int16_t c3);
 #endif

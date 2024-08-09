@@ -1,5 +1,5 @@
 #include "foc.h"
-
+#include "stdio.h"
 const float Udc = 12;
 
 void ipark(FOC_t *foc)
@@ -88,10 +88,9 @@ void svpwm(FOC_t *foc)
         t1 *= scale;
         t2 *= scale;
     }
-
-    uint32_t tcm1 = (ts - t1 - t2) / 4.0f;
-    uint32_t tcm2 = tcm1 + t1 / 2.0f;
-    uint32_t tcm3 = tcm2 + t2 / 2.0f;
+    int16_t tcm1 = (ts - t1 - t2) / 4;
+    int16_t tcm2 = tcm1 + t1 / 2;
+    int16_t tcm3 = tcm2 + t2 / 2;
 
     switch (sector)
     {

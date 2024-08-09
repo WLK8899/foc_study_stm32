@@ -13,9 +13,9 @@ typedef struct {
     float u_alpha;
     float u_beta;
 
-    float t_a;
-    float t_b;
-    float t_c;
+    int16_t t_a;
+    int16_t t_b;
+    int16_t t_c;
 
     float i_a;
     float i_b;

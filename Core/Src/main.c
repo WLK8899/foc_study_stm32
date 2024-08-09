@@ -108,14 +108,14 @@ int main(void)
   HAL_ADCEx_InjectedStart(&hadc1);
   __HAL_ADC_ENABLE_IT(&hadc1, ADC_IT_JEOC);
 
-  // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-  // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
 
-  // HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_1);
-  // HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_2);
-  // HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_3);
+  HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_3);
 
   __HAL_TIM_ENABLE_IT(&htim1, TIM_IT_UPDATE);
   TIM1->CCR4=1000;
@@ -131,11 +131,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    my_motor.foc.theta+=0.1;
+    my_motor.foc.theta=read_angle_spi(ANGLECOM_ADDR);
+    //  my_motor.foc.theta=read_angle_ABZ();
     ipark(&my_motor.foc);
     svpwm(&my_motor.foc);
-    printf("%.2f,%.2f,%.2f\r\n",my_motor.foc.t_a,my_motor.foc.t_b,my_motor.foc.t_c);
-
+    Set_SVPWM_Compare(my_motor.foc.t_a,my_motor.foc.t_b,my_motor.foc.t_c);
+  printf("%d,%d,%d\r\n",my_motor.foc.t_a,my_motor.foc.t_b,my_motor.foc.t_c);
     // ang = read_angle_ABZ();
    
     // Vofa_FireWater("%.2f\r\n", ang);
