@@ -375,13 +375,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     if (my_motor.dir == 0)
     {
       ++my_motor.encoder.number;
-      printf("turn right: %d\n", my_motor.encoder.number);
+     // printf("turn right: %d\n", my_motor.encoder.number);
     }
     // 反转
     else if (my_motor.dir == 1)
     {
       --my_motor.encoder.number;
-      printf("turn left: %d\n", my_motor.encoder.number);
+      //printf("turn left: %d\n", my_motor.encoder.number);
     }
     my_motor.dir = -1;
   }
@@ -439,7 +439,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
       my_motor.speed = delta_angle / 360.0f * 1000; // 1000是时间单位
     }
 
-   Vofa_FireWater("%.2f\r\n",my_motor.speed);
+   //Vofa_FireWater("%.2f\r\n",my_motor.speed);
   }
 }
 /* USER CODE END 1 */

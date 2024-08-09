@@ -64,8 +64,6 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 __attribute__((section(".dma_buffer"), aligned(4))) uint16_t adc_buff[4] = {0};
 
-int sw;
-float ang;
 /* USER CODE END 0 */
 
 /**
@@ -110,19 +108,17 @@ int main(void)
   HAL_ADCEx_InjectedStart(&hadc1);
   __HAL_ADC_ENABLE_IT(&hadc1, ADC_IT_JEOC);
 
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
+  // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+  // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
 
-  HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_1);
-  HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_2);
-  HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_3);
+  // HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_1);
+  // HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_2);
+  // HAL_TIMEx_OCN_Start(&htim1, TIM_CHANNEL_3);
 
   __HAL_TIM_ENABLE_IT(&htim1, TIM_IT_UPDATE);
-
   TIM1->CCR4=1000;
-
   As5047p_Init(&as5047_encoder);
   motor_init(&my_motor);
 
@@ -135,10 +131,13 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    ang = read_angle_ABZ();
-    // angle = read_angle(ANGLECOM_ADDR);
-    //  printf("angle: %f val :  %d/n",angle ,val);
-    //  printf("\n");
+    my_motor.foc.theta+=0.1;
+    ipark(&my_motor.foc);
+    svpwm(&my_motor.foc);
+    printf("%.2f,%.2f,%.2f\r\n",my_motor.foc.t_a,my_motor.foc.t_b,my_motor.foc.t_c);
+
+    // ang = read_angle_ABZ();
+   
     // Vofa_FireWater("%.2f\r\n", ang);
   }
   /* USER CODE END 3 */

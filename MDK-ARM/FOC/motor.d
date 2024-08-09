@@ -41,4 +41,5 @@ foc/motor.o: ..\My\motor.c ..\My\motor.h ..\My\AS5047P.h \
   ..\My\vofa.h ..\Core\Inc\usart.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
   C:\Keil_v5\ARM\ARMCLANG\include\string.h \
-  C:\Keil_v5\ARM\ARMCLANG\include\stdarg.h ..\Core\Inc\tim.h
+  C:\Keil_v5\ARM\ARMCLANG\include\stdarg.h ..\Core\Inc\tim.h ..\My\foc.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\math.h

@@ -4,6 +4,11 @@
 
 #define RELOADVALUE_1 10000
 #include "AS5047P.h"
+#include "foc.h"
+
+extern int Udc;
+extern float Tpwm;
+
 typedef struct 
 {
     int dir;
@@ -15,11 +20,11 @@ typedef struct
     uint8_t direct;      //旋转方向
     
     AS5047_t encoder;
+    FOC_t foc;
+
 } Motor_t;
 
 extern Motor_t my_motor;
 
 void motor_init(Motor_t* motor);
-
-
 #endif

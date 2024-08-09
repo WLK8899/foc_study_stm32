@@ -42,4 +42,4 @@ foc/stm32g4xx_it.o: ..\Core\Src\stm32g4xx_it.c ..\Core\Inc\main.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
   C:\Keil_v5\ARM\ARMCLANG\include\string.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdarg.h ..\Core\Inc\tim.h \
-  ..\My\motor.h
+  ..\My\motor.h ..\My\foc.h C:\Keil_v5\ARM\ARMCLANG\include\math.h
