@@ -5,7 +5,8 @@
 #include <math.h>
 #include <stdint.h>
 
-typedef struct {
+typedef struct
+{
     float u_d;
     float u_q;
     float theta;
@@ -16,6 +17,9 @@ typedef struct {
     int16_t t_a;
     int16_t t_b;
     int16_t t_c;
+    // float t_a;
+    // float t_b;
+    // float t_c;
 
     float i_a;
     float i_b;

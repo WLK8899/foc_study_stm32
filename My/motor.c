@@ -16,7 +16,7 @@ void motor_init(Motor_t *motor)
     motor->direct = 0;
 
     motor->foc.u_d=0;
-    motor->foc.u_q=3;
+    motor->foc.u_q=2;
     motor->foc.theta=0;
 
     // 默认关闭读取速度

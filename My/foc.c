@@ -34,7 +34,7 @@ void park(FOC_t *foc)
 void svpwm(FOC_t *foc)
 {
     const int ts = 4200;
-    const float one_over_sqrt3 = 0.57735026919f;
+    const float one_over_sqrt3 = 0.86602540378f;
     const float sqrt3 = 1.73205080757f;
 
     // 计算Uref1, Uref2, Uref3
@@ -44,11 +44,10 @@ void svpwm(FOC_t *foc)
 
     // 确定扇区
     uint8_t sector = (Uref1 > 0.0f) + ((Uref2 > 0.0f) << 1) + ((Uref3 > 0.0f) << 2);
-
     // 计算X, Y, Z
     float X = sqrt3 * ts / UDC * foc->u_beta;
-    float Y = sqrt3 * ts / UDC * (foc->u_alpha * one_over_sqrt3 + 0.5f * foc->u_beta);
-    float Z = sqrt3 * ts / UDC * (-one_over_sqrt3 * foc->u_alpha + 0.5f * foc->u_beta);
+    float Y = ts / UDC * (1.5f * foc->u_alpha  + one_over_sqrt3 * foc->u_beta);
+    float Z = ts / UDC * (-1.5f  * foc->u_alpha + one_over_sqrt3 * foc->u_beta);
 
     float t1, t2, t3;
     switch (sector)
@@ -91,6 +90,10 @@ void svpwm(FOC_t *foc)
     int16_t tcm1 = (ts - t1 - t2) / 4;
     int16_t tcm2 = tcm1 + t1 / 2;
     int16_t tcm3 = tcm2 + t2 / 2;
+
+    // float tcm1 = (ts - t1 - t2) / 4;
+    // float tcm2 = tcm1 + t1 / 2;
+    // float tcm3 = tcm2 + t2 / 2;
 
     switch (sector)
     {
