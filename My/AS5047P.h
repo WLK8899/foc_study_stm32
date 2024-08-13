@@ -5,6 +5,7 @@
 #include "main.h"
 #include "vofa.h"
 #include "tim.h"
+#include "math.h"
 /*内容随外界变化的寄存器 可读不可写*/
 #define NOP_ADDR      0x0000 //启动读取过程寄存器地址
 #define ERRFL_ADDR    0x0001 //错误寄存器地址
@@ -59,4 +60,6 @@ float read_angle_spi(uint16_t cmd);
 float read_angle_ABZ();
 
 void get_speed();
+
+float get_ele_angle(float mech_angle);
 #endif // __AS5047_H

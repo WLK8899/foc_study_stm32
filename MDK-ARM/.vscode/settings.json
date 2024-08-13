@@ -20,6 +20,8 @@
         "math.h": "c",
         "foc.h": "c",
         "__verbose_abort": "c",
-        "cstdio": "c"
+        "cstdio": "c",
+        "get_adc.h": "c",
+        "current .h": "c"
     }
 }

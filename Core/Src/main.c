@@ -31,6 +31,7 @@
 #include "pid.h"
 #include "vofa.h"
 #include "motor.h"
+#include "current .h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -62,7 +63,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-__attribute__((section(".dma_buffer"), aligned(4))) uint16_t adc_buff[4] = {0};
+// __attribute__((section(".dma_buffer"), aligned(4))) int16_t adc_buff[4] = {0};
 
 /* USER CODE END 0 */
 
@@ -105,6 +106,9 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_Delay(10);
+
+
+
   HAL_ADCEx_InjectedStart(&hadc1);
   __HAL_ADC_ENABLE_IT(&hadc1, ADC_IT_JEOC);
 
@@ -121,7 +125,7 @@ int main(void)
   TIM1->CCR4=1000;
   As5047p_Init(&as5047_encoder);
   motor_init(&my_motor);
-
+  adc_init(&my_motor.adc_u);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -134,16 +138,16 @@ int main(void)
     //my_motor.foc.theta=read_angle_spi(ANGLECOM_ADDR);
      // my_motor.foc.theta=0;
     // my_motor.foc.theta=read_angle_ABZ();
-      my_motor.foc.theta+=0.2;
-      ipark(&my_motor.foc);
-    svpwm(&my_motor.foc);
-    Set_SVPWM_Compare(my_motor.foc.t_a,my_motor.foc.t_b,my_motor.foc.t_c);
-    printf("%d,%d,%d\r\n",my_motor.foc.t_a,my_motor.foc.t_b,my_motor.foc.t_c);
-   
-      // printf("%.2f,%.2f,%.2f\r\n",my_motor.foc.t_a,my_motor.foc.t_b,my_motor.foc.t_c);
+    //   my_motor.foc.theta+=0.1;
+    // ipark(&my_motor.foc);
+    // svpwm(&my_motor.foc);
+    // Set_SVPWM_Compare(my_motor.foc.t_a, my_motor.foc.t_b, my_motor.foc.t_c);
+    //rintf("%d,%d,%d\r\n",my_motor.foc.t_a,my_motor.foc.t_b,my_motor.foc.t_c);
+
+    // printf("%.2f,%.2f,%.2f\r\n",my_motor.foc.t_a,my_motor.foc.t_b,my_motor.foc.t_c);
     // ang = read_angle_ABZ();
-   
-    // Vofa_FireWater("%.2f\r\n", ang);
+    // printf("%.2f,%.2f\r\n",ang,ele_ang);
+    //  Vofa_FireWater("%.2f\r\n", ang);
   }
   /* USER CODE END 3 */
 }

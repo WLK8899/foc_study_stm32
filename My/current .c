@@ -1,8 +1,8 @@
-#include "get_adc.h"
+#include "current .h"
 
- int16_t adc_buff[4]={0};
+int16_t adc_buff[4] = {0};
 
-void adc_init(ADCGG_t *adc)
+void adc_init(ADC_cur_t *adc)
 {
     adc->adc_refer = 1.65;
 
@@ -10,7 +10,13 @@ void adc_init(ADCGG_t *adc)
     adc->Iv = 0.0;
     adc->Iw = 0.0;
     adc->Udc = 0.0;
+    adc->adc_stand=0;
+    adc->cnt=0;
+    adc->Iu_sum_offer=0;
+    adc->Iv_sum_offer=0;
+    adc->Iw_sum_offer=0;
 }
+
 
 // void Adcpro(Motor_t *motor, Current_t *current,  uint16_t *Iraw)
 // {

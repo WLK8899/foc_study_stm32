@@ -1,8 +1,6 @@
 #ifndef GET_ADC_H
 #define GET_ADC_H
-#include "main.h"
 #include "motor.h"
-#include "control.h"
 typedef struct 
 {
 		float Udc; //母线电压采样值
@@ -19,19 +17,23 @@ typedef struct
 	
 	
 		float adc_refer; //参考0位电压
-		float gain_cur;	//电流增益
-		float gain_udc;  //母线增益
+		// float gain_cur;	//电流增益
+		// float gain_udc;  //母线增益
 	
-		int16_t adcstateflag;
-		int16_t ADCcount;   //补偿计时器
+		// int16_t adcstateflag;
+		// int16_t ADCcount;   //补偿计时器
 	
-		float currentoffera;
-		float currentofferb;
-		float currentofferc;
+		// float currentoffera;
+		// float currentofferb;
+		// float currentofferc;
 		
-		int16_t currentofferEN;
+		// int16_t currentofferEN;
+}ADCGG_t;
+
+
+typedef struct {
+	int a;
 }ADC_t;
-
-
-void adc_init(ADC_t* adc);
+extern int16_t adc_buff[4];
+void adc_init(ADCGG_t* adc);
 #endif

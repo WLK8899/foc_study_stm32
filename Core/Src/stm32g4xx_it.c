@@ -375,13 +375,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     if (my_motor.dir == 0)
     {
       ++my_motor.encoder.number;
-     // printf("turn right: %d\n", my_motor.encoder.number);
+      // printf("turn right: %d\n", my_motor.encoder.number);
     }
     // 反转
     else if (my_motor.dir == 1)
     {
       --my_motor.encoder.number;
-      //printf("turn left: %d\n", my_motor.encoder.number);
+      // printf("turn left: %d\n", my_motor.encoder.number);
     }
     my_motor.dir = -1;
   }
@@ -390,6 +390,7 @@ int sw;
 // 定时器中断回调函数
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+
   if (htim->Instance == TIM7)
   {
     HAL_TIM_Base_Stop_IT(htim); // 停止定时器
@@ -408,7 +409,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         HAL_GPIO_WritePin(ENABLE_GPIO_Port, ENABLE_Pin, GPIO_PIN_SET);
         sw = 0;
       }
-      
     }
 
     button_pressed = 0; // 复位按键状态
@@ -427,7 +427,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
       {
         delta_angle += 360.0f;
       }
-       my_motor.speed = delta_angle / 360.0f * 1000; // 1000是时间单位
+      my_motor.speed = delta_angle / 360.0f * 1000; // 1000是时间单位
     }
     // 反转
     else if (dir == 1)
@@ -439,7 +439,73 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
       my_motor.speed = delta_angle / 360.0f * 1000; // 1000是时间单位
     }
 
-   //Vofa_FireWater("%.2f\r\n",my_motor.speed);
+    // Vofa_FireWater("%.2f\r\n",my_motor.speed);
+  }
+  else if (htim->Instance == TIM1)
+  {
+
+#define ADC_CONV_FACTOR (3.3f / 4096.0f)
+#define CURRENT_CONV_FACTOR (100.0f / 16.5f)
+
+    static int adc_sta = 0; // 用于控制校准和采集状态
+    float adc_converted;
+
+    if (adc_sta == 0)
+    { // 校准状态
+      if (my_motor.adc_u.cnt < 500)
+      {
+        // 记录上电值
+        adc_buff[0] = ADC1->JDR1;
+        adc_buff[1] = ADC1->JDR2;
+        adc_buff[2] = ADC1->JDR3;
+        adc_buff[3] = ADC1->JDR4;
+
+        // 分别计算Iu, Iv, Iw的累计和
+        my_motor.adc_u.Iu_sum_offer += ((float)(-adc_buff[0]) * ADC_CONV_FACTOR - my_motor.adc_u.adc_refer) * CURRENT_CONV_FACTOR;
+        my_motor.adc_u.Iv_sum_offer += ((float)(-adc_buff[1]) * ADC_CONV_FACTOR - my_motor.adc_u.adc_refer) * CURRENT_CONV_FACTOR;
+        my_motor.adc_u.Iw_sum_offer += ((float)(-adc_buff[2]) * ADC_CONV_FACTOR - my_motor.adc_u.adc_refer) * CURRENT_CONV_FACTOR;
+
+        my_motor.adc_u.cnt++;
+        // printf("Calibration cnt: %d\n", my_motor.adc_u.cnt);
+      }
+      else if (my_motor.adc_u.cnt == 500)
+      {
+        // 计算均值
+        my_motor.adc_u.Iu_Sample_offer = my_motor.adc_u.Iu_sum_offer / 500.0f;
+        my_motor.adc_u.Iv_Sample_offer = my_motor.adc_u.Iv_sum_offer / 500.0f;
+        my_motor.adc_u.Iw_Sample_offer = my_motor.adc_u.Iw_sum_offer / 500.0f;
+
+        // printf("Calibration done: %.2f, %.2f, %.2f\r\n", my_motor.adc_u.Iu_Sample_offer, my_motor.adc_u.Iv_Sample_offer, my_motor.adc_u.Iw_Sample_offer);
+
+        // 切换到采集状态
+        adc_sta = 1;
+      }
+    }
+
+    if (adc_sta == 1)
+    { // 采集状态
+      adc_buff[0] = ADC1->JDR1;
+      adc_buff[1] = ADC1->JDR2;
+      adc_buff[2] = ADC1->JDR3;
+      adc_buff[3] = ADC1->JDR4;
+
+      my_motor.adc_u.Iu_Sample = -adc_buff[0]; // 反向，一般电流取流入电机方向为正
+      my_motor.adc_u.Iv_Sample = -adc_buff[1];
+      my_motor.adc_u.Iw_Sample = -adc_buff[2];
+
+      // 实际值计算
+      my_motor.adc_u.Iu = (((float)my_motor.adc_u.Iu_Sample * ADC_CONV_FACTOR - my_motor.adc_u.adc_refer) * CURRENT_CONV_FACTOR) - my_motor.adc_u.Iu_Sample_offer;
+      my_motor.adc_u.Iv = (((float)my_motor.adc_u.Iv_Sample * ADC_CONV_FACTOR - my_motor.adc_u.adc_refer) * CURRENT_CONV_FACTOR) - my_motor.adc_u.Iv_Sample_offer;
+      my_motor.adc_u.Iw = (((float)my_motor.adc_u.Iw_Sample * ADC_CONV_FACTOR - my_motor.adc_u.adc_refer) * CURRENT_CONV_FACTOR) - my_motor.adc_u.Iw_Sample_offer;
+
+      my_motor.adc_u.Udc = ((float)adc_buff[3] * ADC_CONV_FACTOR) * 25.0f;
+
+      printf("%.2f, %.2f, %.2f\r\n", my_motor.adc_u.Iu, my_motor.adc_u.Iv, my_motor.adc_u.Iw);
+      my_motor.foc.theta += 0.1;
+      ipark(&my_motor.foc);
+      svpwm(&my_motor.foc);
+      Set_SVPWM_Compare(my_motor.foc.t_a, my_motor.foc.t_b, my_motor.foc.t_c);
+    }
   }
 }
 /* USER CODE END 1 */

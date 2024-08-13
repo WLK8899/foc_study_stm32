@@ -1,16 +1,17 @@
 #ifndef MOTOR_H
 #define MOTOR_H
 
-
-#define RELOADVALUE_1 10000
 #include "AS5047P.h"
 #include "foc.h"
+#include "current .h"
+#define RELOADVALUE_1 10000
 
 extern int Udc;
 extern float Tpwm;
 
 typedef struct 
-{
+
+{   
     int dir;
     float lastAngle;   //上一次计数值
     // int32_t totalCount;  //总计数值
@@ -21,6 +22,7 @@ typedef struct
     
     AS5047_t encoder;
     FOC_t foc;
+    ADC_cur_t adc_u;
 
 } Motor_t;
 

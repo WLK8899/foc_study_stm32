@@ -40,4 +40,5 @@ foc/as5047p.o: ..\My\AS5047P.c ..\My\AS5047P.h ..\Core\Inc\spi.h \
   ..\My\vofa.h ..\Core\Inc\usart.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
   C:\Keil_v5\ARM\ARMCLANG\include\string.h \
-  C:\Keil_v5\ARM\ARMCLANG\include\stdarg.h ..\Core\Inc\tim.h
+  C:\Keil_v5\ARM\ARMCLANG\include\stdarg.h ..\Core\Inc\tim.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\math.h

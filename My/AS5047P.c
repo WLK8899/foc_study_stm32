@@ -148,3 +148,9 @@ void get_speed() {
 	//打开定时器获得速度
 	HAL_TIM_Base_Start_IT(&htim6);
 }
+float get_ele_angle(float mech_angle) {
+    float ele_angle = mech_angle * 7;
+    ele_angle = fmod(ele_angle, 360.0f);
+
+    return ele_angle;
+}

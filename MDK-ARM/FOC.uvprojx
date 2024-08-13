@@ -646,6 +646,11 @@
               <FileType>1</FileType>
               <FilePath>..\My\foc.c</FilePath>
             </File>
+            <File>
+              <FileName>current .c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\My\current .c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

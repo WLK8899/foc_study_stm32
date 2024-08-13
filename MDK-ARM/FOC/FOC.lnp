@@ -37,6 +37,7 @@
 "foc\vofa.o"
 "foc\motor.o"
 "foc\foc.o"
+"foc\current .o"
 --library_type=microlib --strict --scatter "FOC\FOC.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
